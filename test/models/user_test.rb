@@ -13,13 +13,17 @@ class TestUser < ActiveSupport::TestCase
   #Uploaders
   test "ProfilepicUploader" do
     userImage = File.open("test/fixtures/files/images/thinqTv.png")
-    @user.profilepic.store!(userImage)
+    @user.profilepic.cache!(userImage)
+    assert_match /#{Rails.root}\/tmp\/uploads\/[\d-]*\/thinqTv\.png/, @user.profilepic.current_path
+    @user.save
     assert_not @user.profilepic.file.nil?, "Profile pic didn't save successfully"
   end
 
   test "BannerpicUploader" do
     bannerImage = File.open("test/fixtures/files/images/thinqTv.png")
-    @user.bannerpic.store!(bannerImage)
+    @user.bannerpic.cache!(bannerImage)
+    assert_match /#{Rails.root}\/tmp\/uploads\/[\d-]*\/thinqTv\.png/, @user.bannerpic.current_path
+    @user.save
     assert_not @user.bannerpic.file.nil?, "Banner didn't save successfully"
   end
 

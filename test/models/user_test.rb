@@ -9,6 +9,20 @@ class TestUser < ActiveSupport::TestCase
 
 #sign_in @user  #why dont I need this for model
   end
+
+  #Uploaders
+  test "ProfilepicUploader" do
+    userImage = File.open("test/fixtures/files/images/thinqTv.png")
+    @user.profilepic.store!(userImage)
+    assert_not @user.profilepic.file.nil?, "Profile pic didn't save successfully"
+  end
+
+  test "BannerpicUploader" do
+    bannerImage = File.open("test/fixtures/files/images/thinqTv.png")
+    @user.bannerpic.store!(bannerImage)
+    assert_not @user.bannerpic.file.nil?, "Banner didn't save successfully"
+  end
+
   test "user_can_follow_another_user" do
     john = users(:one)
     mark = users(:two)

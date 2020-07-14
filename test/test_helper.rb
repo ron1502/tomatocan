@@ -97,6 +97,8 @@ class ActiveSupport::TestCase
     # config.fog_attributes = {'Cache-Control'=>'max-age=315576000'}
   end
 
+  MiniTest::Unit.after_tests { FileUtils.remove_dir carrierwave_root}
+
   # And copy carrierwave template in
   #puts "Copying\n  #{carrierwave_template.join('uploads').to_s} to\n  #{carrierwave_root.to_s}"
   FileUtils.cp_r carrierwave_template.join('uploads'), carrierwave_root

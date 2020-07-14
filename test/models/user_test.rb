@@ -6,22 +6,20 @@ class TestUser < ActiveSupport::TestCase
     @user = users(:one)
     @rand_Az = lambda{|len|name=Array('A'.."z");Array.new(len){name.sample}.join}
     @name_over = lambda {|len| name = Array('A'..'Z')+Array('a'..'z');Array.new(len) {name.sample}.join}
-
+    @pngImage = File.open("test/fixtures/files/images/thinqTv.png")
 #sign_in @user  #why dont I need this for model
   end
 
   #Uploaders
   test "ProfilepicUploader" do
-    userImage = File.open("test/fixtures/files/images/thinqTv.png")
-    @user.profilepic.cache!(userImage)
+    @user.profilepic.cache!(@pngImage)
     assert_match /#{Rails.root}\/tmp\/uploads\/[\d-]*\/thinqTv\.png/, @user.profilepic.current_path
     @user.save
     assert_not @user.profilepic.file.nil?, "Profile pic didn't save successfully"
   end
 
   test "BannerpicUploader" do
-    bannerImage = File.open("test/fixtures/files/images/thinqTv.png")
-    @user.bannerpic.cache!(bannerImage)
+    @user.bannerpic.cache!(@pngImage)
     assert_match /#{Rails.root}\/tmp\/uploads\/[\d-]*\/thinqTv\.png/, @user.bannerpic.current_path
     @user.save
     assert_not @user.bannerpic.file.nil?, "Banner didn't save successfully"

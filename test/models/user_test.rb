@@ -7,8 +7,24 @@ class TestUser < ActiveSupport::TestCase
     @rand_Az = lambda{|len|name=Array('A'.."z");Array.new(len){name.sample}.join}
     @name_over = lambda {|len| name = Array('A'..'Z')+Array('a'..'z');Array.new(len) {name.sample}.join}
 
+    @carrierwave_cache_path = "#{Rails.root}/tmp/uploads/"
+    @png = File.open("test/fixtures/files/uploader_test/pictureTest.png")
 #sign_in @user  #why dont I need this for model
   end
+
+  #Uploaders
+  test "ProfilepicUploader" do
+    testUploader(@user, @user.profilepic, @png,
+       /#{@carrierwave_cache_path}[\d-]*\/pictureTest\.png/,
+       "Profile pic didn't save successfully")
+  end
+
+  test "BannerpicUploader" do
+    testUploader(@user, @user.bannerpic, @png,
+      /#{@carrierwave_cache_path}[\d-]*\/pictureTest\.png/,
+      "Banner didn't save successfully")
+  end
+
   test "user_can_follow_another_user" do
     john = users(:one)
     mark = users(:two)

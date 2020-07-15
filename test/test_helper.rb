@@ -97,6 +97,8 @@ class ActiveSupport::TestCase
     # config.fog_attributes = {'Cache-Control'=>'max-age=315576000'}
   end
 
+  MiniTest.after_run { FileUtils.remove_dir carrierwave_root}
+
   # And copy carrierwave template in
   #puts "Copying\n  #{carrierwave_template.join('uploads').to_s} to\n  #{carrierwave_root.to_s}"
   FileUtils.cp_r carrierwave_template.join('uploads'), carrierwave_root
@@ -124,6 +126,15 @@ class ActiveSupport::TestCase
     else
       session[:user_id] = 1 # user.id
     end
+  end
+
+  def testUploader(model, uploader, file, cacheRegex, errorMsg = "")
+    uploader.cache! file
+    assert_match cacheRegex, uploader.current_path
+    assert_changes -> {uploader.current_path} do
+      model.save
+    end
+    assert_not uploader.file.nil?, errorMsg
   end
 
   private

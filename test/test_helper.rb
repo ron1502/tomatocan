@@ -128,6 +128,15 @@ class ActiveSupport::TestCase
     end
   end
 
+  def testUploader(model, uploader, file, cacheRegex, errorMsg = "")
+    uploader.cache! file
+    assert_match cacheRegex, uploader.current_path
+    assert_changes -> {uploader.current_path} do
+      model.save
+    end
+    assert_not uploader.file.nil?, errorMsg
+  end
+
   private
 
   # Returns true inside an integration test.

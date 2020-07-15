@@ -6,23 +6,23 @@ class TestUser < ActiveSupport::TestCase
     @user = users(:one)
     @rand_Az = lambda{|len|name=Array('A'.."z");Array.new(len){name.sample}.join}
     @name_over = lambda {|len| name = Array('A'..'Z')+Array('a'..'z');Array.new(len) {name.sample}.join}
-    @pngImage = File.open("test/fixtures/files/images/thinqTv.png")
+
+    @carrierwave_cache_path = "#{Rails.root}/tmp/uploads/"
+    @png = File.open("test/fixtures/files/uploader_test/pictureTest.png")
 #sign_in @user  #why dont I need this for model
   end
 
   #Uploaders
   test "ProfilepicUploader" do
-    @user.profilepic.cache!(@pngImage)
-    assert_match /#{Rails.root}\/tmp\/uploads\/[\d-]*\/thinqTv\.png/, @user.profilepic.current_path
-    @user.save
-    assert_not @user.profilepic.file.nil?, "Profile pic didn't save successfully"
+    testUploader(@user, @user.profilepic, @png,
+       /#{@carrierwave_cache_path}[\d-]*\/pictureTest\.png/,
+       "Profile pic didn't save successfully")
   end
 
   test "BannerpicUploader" do
-    @user.bannerpic.cache!(@pngImage)
-    assert_match /#{Rails.root}\/tmp\/uploads\/[\d-]*\/thinqTv\.png/, @user.bannerpic.current_path
-    @user.save
-    assert_not @user.bannerpic.file.nil?, "Banner didn't save successfully"
+    testUploader(@user, @user.bannerpic, @png,
+      /#{@carrierwave_cache_path}[\d-]*\/pictureTest\.png/,
+      "Banner didn't save successfully")
   end
 
   test "user_can_follow_another_user" do

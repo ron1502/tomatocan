@@ -3,6 +3,12 @@ module MonthCalendarHelper
     Caler.new(self, date, block).table
   end
 
+  def getWeeks(startDay)
+    first = startDay.beginning_of_month.beginning_of_week(:sunday)
+    last = startDay.end_of_month.end_of_week(:sunday)
+    (first..last).to_a.in_groups_of(7)
+  end
+
   class Caler < Struct.new(:view, :date, :callback)
     HEADER = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
     START_DAY = :sunday

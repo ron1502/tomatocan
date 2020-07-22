@@ -1,0 +1,29 @@
+<table style="margin: auto;">
+  <div>
+    <button class="btn">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    </button>
+    <h2><%= date.strftime("%B %Y")%></h2>
+    <%= button_to "monthCalendar", class: "btn", method: "get", action: "monthCalendar", remote: true, params: {monthNum: 1} do%>
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <%end%>
+  </div>
+  <th>Su</th>
+  <th>Mo</th>
+  <th>Tu</th>
+  <th>We</th>
+  <th>Th</th>
+  <th>Fr</th>
+  <th>Sa</th>
+  <% getWeeks(date).each do |week| %>
+    <tr>
+      <%week.each do |date|%>
+        <td style="height: auto;">
+          <%= date.day %>
+          <br>
+          <%= events.count {|event| event.start_at.to_date.eql?(date)}%>
+        </td>
+      <%end%>
+    </tr>
+  <%end%>
+</table>

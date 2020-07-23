@@ -1,1 +1,1 @@
-$("#calendar").html('<%= escape_javascript(render partial: 'layouts/calendar', locals: {date: @selectedMonth, events: @calendar_events_all, start: false})%>');
+$("#miniCalendar").html("<%= escape_javascript(render partial: 'layouts/calendar', locals: {date: @selectedMonth, events: @calendar_events_all, monthNum: @monthNum})%>");

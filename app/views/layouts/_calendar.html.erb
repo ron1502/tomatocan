@@ -1,12 +1,8 @@
 <table style="margin: auto;">
   <div>
-    <button class="btn">
-      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    </button>
-    <h2><%= date.strftime("%B %Y")%></h2>
-    <%= button_to "monthCalendar", class: "btn", method: "get", action: "monthCalendar", remote: true, params: {monthNum: 1} do%>
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    <%end%>
+    <%=link_to "<", "/monthCalendar?monthNum=#{monthNum - 1}", class: "btn btn-primary", remote: true%>
+    <h2 style="display: inline-block;"><%= date.strftime("%B %Y")%></h2>
+    <%=link_to ">", "/monthCalendar?monthNum=#{monthNum + 1}", class: "btn btn-primary", remote: true%>
   </div>
   <th>Su</th>
   <th>Mo</th>

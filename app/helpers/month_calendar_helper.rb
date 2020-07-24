@@ -3,7 +3,8 @@ module MonthCalendarHelper
     Caler.new(self, date, block).table
   end
 
-  def getWeeks(startDay)
+  def getWeeks(startDayWithTime)
+    startDay = (startDayWithTime - 10.hour).to_date
     first = startDay.beginning_of_month.beginning_of_week(:sunday)
     last = startDay.end_of_month.end_of_week(:sunday)
     (first..last).to_a.in_groups_of(7)

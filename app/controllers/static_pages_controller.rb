@@ -73,7 +73,8 @@ class StaticPagesController < ApplicationController
 
   def monthCalendar
     @monthNum = params[:monthNum].to_i
-    @selectedMonth = Date.today.beginning_of_month + @monthNum.month
+    #TODO: Check time is not an issue
+    @selectedMonth = (Date.today - 10.hour).to_date.beginning_of_month + @monthNum.month
     showrecentconvo = @selectedMonth
     conversations = Event.where( "start_at > ? AND topic = ?", showrecentconvo, 'Conversation' )
     calendar_events = conversations.flat_map{ |e| e.calendar_events(e.start_at)}

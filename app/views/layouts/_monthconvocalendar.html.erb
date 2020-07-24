@@ -7,10 +7,10 @@
 <% l = 0 %>
 <div class="container-fluid">
   <div class="row">
-    <div id="miniCalendar" class="col-md-4">
+    <div id="miniCalendar" class="col-md-5">
       <%= render partial: "layouts/calendar", locals: {date: Date.today, events: @calendar_events_all, monthNum: 0}%>
     </div>
-    <div class="col-md-8" id="events">
+    <div class="col-md-7" id="events">
       <h2 id="month" style="color: black;"> <%= Date.today.strftime("%B %Y") %> </h2>
       <!-- the caler is a method defined in app/helpers/month_calendar_helper.rb -->
       <%= caler Date.today do |date| %>

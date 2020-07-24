@@ -1,9 +1,11 @@
-<table style="margin: auto;">
-  <div>
-    <%=link_to "<", "/monthCalendar?monthNum=#{monthNum - 1}", class: "btn btn-primary", remote: true%>
-    <h2 style="display: inline-block;"><%= date.strftime("%B %Y")%></h2>
-    <%=link_to ">", "/monthCalendar?monthNum=#{monthNum + 1}", class: "btn btn-primary", remote: true%>
+<div>
+  <%=link_to "<", "/monthCalendar?monthNum=#{monthNum - 1}", class: "btn btn-primary", remote: true%>
+  <div style="display: inline-block; width:200px">
+    <p> <%= date.strftime("%B %Y")%></p>
   </div>
+  <%=link_to ">", "/monthCalendar?monthNum=#{monthNum + 1}", class: "btn btn-primary", remote: true%>
+</div>
+<table style="margin: auto; width: 300px;">
   <th>Su</th>
   <th>Mo</th>
   <th>Tu</th>
@@ -14,10 +16,20 @@
   <% getWeeks(date).each do |week| %>
     <tr>
       <%week.each do |date|%>
-        <td style="height: auto;">
-          <%= date.day %>
-          <br>
-          <%= events.count {|event| event.start_at.to_date.eql?(date)}%>
+        <td style="height: 50px;">
+          <button class="btn btn-sm" style="margin: 0px;">
+            <%= date.day %>
+            <br>
+            <% if events.any? {|event| event.start_at.to_date.eql?(date) && event.start_at > (Time.now - 10.hour) }%>
+              <span style="  height: 15px; width: 15px; background-color: #8C1D40;
+              border-radius: 50%; display: inline-block;"
+              ></span>
+            <%else%>
+              <span style="  height: 15px; width: 15px; background-color: #bbb;
+              border-radius: 50%; display: inline-block;"
+              ></span>
+            <%end%>
+          </button>
         </td>
       <%end%>
     </tr>

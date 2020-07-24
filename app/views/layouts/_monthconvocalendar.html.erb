@@ -14,17 +14,8 @@
     <div id="miniCalendar" class="col-md-6">
       <%= render partial: "layouts/calendar", locals: {date: Date.today, events: @calendar_events_all, monthNum: 0}%>
     </div>
-    <div class="col-md-6" id="monthEvents">
-      <%getWeeks(Date.today).flatten.each do |date| %>
-        <%tId = date.strftime("%Y-%m-%d")%>
-        <table id="calendar" class="<%=tId%>">
-          <% if @calendar_events_all.any? {|event| event.start_at.to_date.eql? date}%>
-            <%@calendar_events_all.select{|event| event.start_at.to_date.eql? date}.each_with_index do |event, i|%>
-              <%=render partial: "layouts/event_row", locals: {event: event, id: "#{tId}-#{i}"}%>
-            <%end%>
-          <%end%>
-      </table>
-      <%end%>
+    <div id="monthEvents" class="col-md-6">
+      <%= render partial: "layouts/calendarList", locals: {baseDate: Date.today, events: @calendar_events_all}%>
     </div>
   </div>
 </div>

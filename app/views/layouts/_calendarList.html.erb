@@ -1,0 +1,10 @@
+<%getWeeks(baseDate).flatten.each do |date| %>
+  <%tId = date.strftime("%Y-%m-%d")%>
+  <table id="calendar" class="<%=tId%>">
+    <% if events.any? {|event| event.start_at.to_date.eql? date}%>
+      <%events.select{|event| event.start_at.to_date.eql? date}.each_with_index do |event, i|%>
+        <%=render partial: "layouts/event_row", locals: {event: event, id: "#{tId}-#{i}"}%>
+      <%end%>
+    <%end%>
+  </table>
+<%end%>

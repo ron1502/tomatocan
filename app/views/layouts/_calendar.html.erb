@@ -1,7 +1,7 @@
-<% prevMDisabled = "disabled" if  (Time.now - 10.hour).to_date.month.eql? date.month %>
+<% prevMDisabled = "disabled" if  (Time.now - 10.hour).to_date.month.eql? baseDate.month %>
 <%=link_to "<", "/monthCalendar?monthNum=#{monthNum - 1}", class: "btn btn-primary btn-sm #{prevMDisabled}", remote: true%>
 <div class="smCalendarTitle">
-  <p><%= date.strftime("%B %Y")%></p>
+  <p><%= baseDate.strftime("%B %Y")%></p>
 </div>
   <%=link_to ">", "/monthCalendar?monthNum=#{monthNum + 1}", class: "btn btn-primary btn-sm", remote: true%>
 <table class="smCalendar">
@@ -12,11 +12,12 @@
   <th>Th</th>
   <th>Fr</th>
   <th>Sa</th>
-  <% getWeeks(date).each do |week| %>
+  <% getWeeks(baseDate).each do |week| %>
     <tr style="padding: 0px;">
       <%week.each do |day|%>
+        <%dayDisabled = "disabled" if !baseDate.month.eql? day.month || (day < (Time.now - 10.hour).to_date) %>
         <td>
-          <button class="btn btn-sm" <%= "disabled" if (day < Time.now - 10.hour)%> onclick='toggle(".<%=day.strftime("%F")%>");'>
+          <button class="btn btn-sm <%=dayDisabled%>" onclick='toggle(".<%=day.strftime("%F")%>");'>
             <%=day.strftime("%d")%>
             <br>
             <% if events.any? {|event| event.start_at.to_date.eql?(day) && event.start_at > (day) }%>

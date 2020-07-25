@@ -1,10 +1,18 @@
 <%getWeeks(baseDate).flatten.each do |date| %>
-  <%tId = date.strftime("%Y-%m-%d")%>
-  <table id="calendar" class="<%=tId%>">
-    <% if events.any? {|event| event.start_at.to_date.eql? date}%>
-      <%events.select{|event| event.start_at.to_date.eql? date}.each_with_index do |event, i|%>
-        <%=render partial: "layouts/event_row", locals: {event: event, id: "#{tId}-#{i}"}%>
+  <%tId = date.strftime("%F")%>
+  <table id="calendar" class="<%=tId%> monthEntry" style="display: none;">
+    <tbody>
+      <% if events.any? {|event| event.start_at.to_date.eql? date}%>
+        <%events.select{|event| event.start_at.to_date.eql? date}.each_with_index do |event, i|%>
+          <%=render partial: "layouts/event_row", locals: {event: event, id: "#{tId}-#{i}"}%>
+        <%end%>
+      <%else%>
+      <tr>
+        <td>
+          <p>There are no events on <%=date.strftime("%B %e, %Y")%></p>
+        </td>
+      </tr>
       <%end%>
-    <%end%>
+    </tbody>
   </table>
 <%end%>

@@ -1,37 +1,9 @@
-<style>
-  .dot{
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-
-  .bPrimary{
-    background-color: #8C1D40;
-  }
-
-  .bGray{
-    background-color: #bbb;
-  }
-
-  .smCalendar{
-    margin: auto;
-    width: auto;
-    border: none;
-  }
-
-  .smCalendar td{
-    height: auto;
-    padding: 0px;
-  }
-</style>
-<div>
-  <%=link_to "<", "/monthCalendar?monthNum=#{monthNum - 1}", class: "btn btn-primary", remote: true%>
-  <div style="display: inline-block; width:150px">
-    <p> <%= date.strftime("%B %Y")%></p>
-  </div>
-  <%=link_to ">", "/monthCalendar?monthNum=#{monthNum + 1}", class: "btn btn-primary", remote: true%>
+<% prevMDisabled = "disabled" if  (Time.now - 10.hour).to_date.month.eql? date.month %>
+<%=link_to "<", "/monthCalendar?monthNum=#{monthNum - 1}", class: "btn btn-primary btn-sm #{prevMDisabled}", remote: true%>
+<div class="smCalendarTitle">
+  <p><%= date.strftime("%B %Y")%></p>
 </div>
+  <%=link_to ">", "/monthCalendar?monthNum=#{monthNum + 1}", class: "btn btn-primary btn-sm", remote: true%>
 <table class="smCalendar">
   <th>Su</th>
   <th>Mo</th>
@@ -42,12 +14,12 @@
   <th>Sa</th>
   <% getWeeks(date).each do |week| %>
     <tr style="padding: 0px;">
-      <%week.each do |date|%>
+      <%week.each do |day|%>
         <td>
-          <button class="btn btn-sm" onclick='toggle(".<%=date.strftime("%Y-%m-%d")%>");'>
-            <%= date.strftime("%d") %>
+          <button class="btn btn-sm" <%= "disabled" if (day < Time.now - 10.hour)%> onclick='toggle(".<%=day.strftime("%F")%>");'>
+            <%=day.strftime("%d")%>
             <br>
-            <% if events.any? {|event| event.start_at.to_date.eql?(date) && event.start_at > (Time.now - 10.hour) }%>
+            <% if events.any? {|event| event.start_at.to_date.eql?(day) && event.start_at > (day) }%>
               <span class="dot bPrimary"></span>
             <%else%>
               <span class="dot bGray"> </span>

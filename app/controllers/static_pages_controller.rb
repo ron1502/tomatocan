@@ -76,9 +76,9 @@ class StaticPagesController < ApplicationController
     #TODO: Check time is not an issue
     #TODO: Check correct conversations are retrived
     unless @monthNum.month == 0
-      @selectedMonth = (Date.today - 10.hour).beginning_of_month + @monthNum.month
+      @selectedMonth = (Time.now - 10.hour).beginning_of_month + @monthNum.month
     else
-      @selectedMonth = (Date.today - 10.hour)
+      @selectedMonth = (Time.now - 10.hour).to_date
     end
     conversations = Event.where( "start_at BETWEEN ? AND ? AND topic = ?", @selectedMonth, @selectedMonth.end_of_month , 'Conversation' ).order('start_at ASC')
     @selectedMonth = @selectedMonth.to_date

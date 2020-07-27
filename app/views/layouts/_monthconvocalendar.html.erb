@@ -49,10 +49,10 @@
 <div class="container-fluid">
   <div class="row">
     <div id="miniCalendar" class="col-md-6">
-      <%= render partial: "layouts/calendar", locals: {baseDate: Date.today, events: @calendar_events_all, monthNum: 0}%>
+      <%= render partial: "layouts/calendar", locals: {baseDate: (Time.now - 10.hour).to_date, events: @calendar_events_all, monthNum: 0}%>
     </div>
     <div id="monthEvents" class="col-md-6">
-      <%= render partial: "layouts/calendarList", locals: {baseDate: Date.today, events: @calendar_events_all}%>
+      <%= render partial: "layouts/calendarList", locals: {baseDate: (Time.now - 10.hour).to_date, events: @calendar_events_all}%>
     </div>
   </div>
 </div>

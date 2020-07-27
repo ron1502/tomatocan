@@ -4,10 +4,18 @@ module MonthCalendarHelper
   end
 
   def getWeeks(startDay)
-    startDay = startDay == Date.today ? (startDay - 10.hour).to_date : startDay
     first = startDay.beginning_of_month.beginning_of_week(:sunday)
     last = startDay.end_of_month.end_of_week(:sunday)
     (first..last).to_a.in_groups_of(7)
+  end
+
+  def displayEvents?(baseDate, date)
+    if baseDate.month == date.month and
+       (baseDate.eql? date or date.to_date.eql? Date.today.to_date)
+      "table"
+    else
+      "none"
+    end
   end
 
   class Caler < Struct.new(:view, :date, :callback)

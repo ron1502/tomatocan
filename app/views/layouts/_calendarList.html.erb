@@ -1,6 +1,6 @@
 <%getWeeks(baseDate).flatten.each do |date| %>
   <%tId = date.strftime("%F")%>
-  <table id="calendar" class="<%=tId%> monthEntry" style="display: none;">
+  <table id="calendar" class="<%=tId%> monthEntry" style="display: <%=displayEvents?(baseDate, date)%>;">
     <tbody>
       <% if events.any? {|event| event.start_at.to_date.eql? date}%>
         <%events.select{|event| event.start_at.to_date.eql? date}.each_with_index do |event, i|%>
